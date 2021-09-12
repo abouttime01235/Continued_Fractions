@@ -1,0 +1,52 @@
+<script>
+    //////
+    //recursive code for continued fractions
+    // Author: Abhinav Khanna
+    //////
+    document.write("<b>SIMPLE CONTINUED FRACTIONS GENERATOR</b><br>");
+    var Result = [];
+
+    function CF() {
+        var y = document.getElementById("y").value;
+        var x = document.getElementById("x").value;
+        var out = document.getElementById("output");
+        Result = [];
+        if (x > 0 && y > 0) {
+            genCF(y, x);
+            if (document.getElementById("long").checked)
+                out.innerHTML = "Continued Fraction of " + y + "<b> / </b>" + x + " is: <br><b>" + format(Result);
+            else
+                out.innerHTML = "Continued Fraction of " + y + "<b> / </b>" + x + " is: <br><b>" + Result.toString();
+
+        } else
+            out.innerHTML = "Please input positive numbers";
+    }
+
+    function genCF(y, x) {
+        var quotient = Math.floor(y / x);
+        var remainder = y % x;
+        Result.push(quotient);
+        if (remainder == 0)
+            return;
+        else
+            genCF(x, remainder);
+    }
+
+    function format(result) {
+        var cfResult = "(";
+        for (var i = 0; i < result.length; i++) {
+            cfResult += result[i];
+            if (i < result.length - 1)
+                cfResult += " + 1/(";
+        }
+        for (var i = 0; i < result.length; i++)
+            cfResult += ")";
+        return cfResult;
+    }
+</script>
+
+<p style="color: green">Input a fraction y / x:<br></p>
+<input type=text id="y">/<input type=text id="x">
+<input type="checkbox" id=long>Long Format
+<input type=button onClick=CF() value="Generate continued fractions">
+<p id="output" style="color:green;"></p>
